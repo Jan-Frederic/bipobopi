@@ -1,13 +1,10 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI + GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -26,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: npm
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
@@ -40,12 +37,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24.x'
-          cache: 'npm'
+          cache: npm
       - run: npm ci
       - run: npm run build --if-present
-      - run: mkdir -p public && rm -rf public/* && cp -a dist/bipobopi/. public/
+      - name: Copy build to public
+        run: |
+          rm -rf public/*
+          mkdir -p public
+          cp -a dist/bipobopi/. public/
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: public
       - uses: actions/deploy-pages@v1
