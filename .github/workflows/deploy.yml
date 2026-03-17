@@ -12,6 +12,6 @@ jobs:
          node-version: '20.x'
      - run: npm install
      - run: npm run build -- --configuration production --base-href=/bipobopi/
-     - run: npx angular-cli-ghpages --dir=dist/<project-name>
+     - run: npx angular-cli-ghpages --dir=dist/bipobopi --message="Deploy to GitHub Pages"
        env:
          GH_TOKEN: ${{ secrets.GH_TOKEN }}
